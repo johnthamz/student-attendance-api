@@ -2,6 +2,9 @@ from django.shortcuts import render
 from rest_framework import generics
 from .models import AttendanceSession, AttendanceRecord
 from .serializers import AttendanceSessionSerializer, AttendanceRecordSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class AttendanceSessionListCreateAPIView(generics.ListCreateAPIView):
@@ -22,4 +25,28 @@ class AttendanceRecordListCreateAPIView(generics.ListCreateAPIView):
 class AttendanceRecordDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializer
+
+class BulkAttendanceAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsTeacher]
+
+    def post(self, request):
+        session_id = request.data.get('session')
+        records = request.data.get('records', [])
+
+        created = []
+
+        for record in records:
+            attendance = AttendanceRecord.objects.create(
+                session_id=session_id,
+                student_id=record['student'],
+                status=record['status'],
+                marked_by=request.user
+            )
+            created.append(attendance.id)
+
+        return Response(
+            {"message": "Attendance recorded successfully", "records": created},
+            status=status.HTTP_201_CREATED
+        )
+
 

@@ -1,3 +1,8 @@
 from django.urls import path
 
-urlpatterns = []
+from .views import AttendanceReportAPIView
+
+urlpatterns = [
+    path('reports/attendance/', AttendanceReportAPIView.as_view()),
+]
+

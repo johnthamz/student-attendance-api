@@ -6,6 +6,7 @@ from .views import (
     AttendanceRecordListCreateAPIView,
     AttendanceRecordDetailAPIView,
 )
+from .views import BulkAttendanceAPIView
 
 urlpatterns = [
     path('attendance-sessions/', AttendanceSessionListCreateAPIView.as_view(), name='attendance-session-list-create'),
@@ -15,3 +16,6 @@ urlpatterns = [
     path('attendance-records/<int:pk>/', AttendanceRecordDetailAPIView.as_view(), name='attendance-record-detail'),
 ]
 
+urlpatterns += [
+    path('attendance/bulk/', BulkAttendanceAPIView.as_view(), name='bulk-attendance'),
+]
