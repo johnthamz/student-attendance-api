@@ -1,10 +1,12 @@
-from django.shortcuts import render
-from rest_framework import generics
-from .models import AttendanceSession, AttendanceRecord
-from .serializers import AttendanceSessionSerializer, AttendanceRecordSerializer
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+
+from .models import AttendanceSession, AttendanceRecord
+from .serializers import AttendanceSessionSerializer, AttendanceRecordSerializer
+from accounts.permissions import IsTeacher
+
 
 
 class AttendanceSessionListCreateAPIView(generics.ListCreateAPIView):
