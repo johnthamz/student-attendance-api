@@ -5,9 +5,15 @@ from .serializers import StudentSerializer
 from .models import Enrollment
 from .serializers import EnrollmentSerializer
 
+from rest_framework.permissions import IsAuthenticated
+from accounts.permissions import IsAdmin
+
+
 class StudentListCreateAPIView(generics.ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    lookup_field = 'admission_number'
+    permission_classes = [IsAuthenticated, IsAdmin]
 
 class StudentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
@@ -22,3 +28,4 @@ class EnrollmentListCreateAPIView(generics.ListCreateAPIView):
 class EnrollmentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
+

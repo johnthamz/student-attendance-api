@@ -12,6 +12,7 @@ from accounts.permissions import IsTeacher
 class AttendanceSessionListCreateAPIView(generics.ListCreateAPIView):
     queryset = AttendanceSession.objects.all()
     serializer_class = AttendanceSessionSerializer
+    permission_classes = [IsAuthenticated, IsTeacher]
 
 
 class AttendanceSessionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -22,7 +23,7 @@ class AttendanceSessionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class AttendanceRecordListCreateAPIView(generics.ListCreateAPIView):
     queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializer
-
+    permission_classes = [IsAuthenticated, IsTeacher]
 
 class AttendanceRecordDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = AttendanceRecord.objects.all()
